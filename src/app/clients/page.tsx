@@ -61,6 +61,20 @@ export default function ClientsPage() {
     }
   }
 
+  async function handleDelete(id: number) {
+    await fetch(`/api/clients/${id}`, { method: "DELETE" });
+    await load();
+  }
+
+  async function toggleActive(c: Client) {
+    await fetch(`/api/clients/${c.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ active: !c.active }),
+    });
+    await load();
+  }
+
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-semibold">Clientes</h1>
@@ -110,6 +124,8 @@ export default function ClientsPage() {
               <th className="text-left p-2">Nascimento</th>
               <th className="text-left p-2">Ativo</th>
               <th className="text-left p-2">Criado em</th>
+              {/* NOVO: coluna de ações */}
+              <th className="text-left p-2">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -126,11 +142,27 @@ export default function ClientsPage() {
                 <td className="p-2">
                   {new Date(c.createdAt).toLocaleString()}
                 </td>
+                {/* NOVO: célula com os botões */}
+                <td className="p-2 flex gap-2">
+                  <button
+                    className="px-2 py-1 border rounded"
+                    onClick={() => toggleActive(c)}
+                  >
+                    {c.active ? "Desativar" : "Ativar"}
+                  </button>
+                  <button
+                    className="px-2 py-1 border rounded text-red-600"
+                    onClick={() => handleDelete(c.id)}
+                  >
+                    Excluir
+                  </button>
+                </td>
               </tr>
             ))}
             {list.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-3 text-center text-gray-500">
+                {/* Atualize o colSpan para 6 por causa da nova coluna */}
+                <td colSpan={6} className="p-3 text-center text-gray-500">
                   Sem clientes
                 </td>
               </tr>
