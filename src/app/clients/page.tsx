@@ -124,7 +124,6 @@ export default function ClientsPage() {
               <th className="text-left p-2">Nascimento</th>
               <th className="text-left p-2">Ativo</th>
               <th className="text-left p-2">Criado em</th>
-              {/* NOVO: coluna de ações */}
               <th className="text-left p-2">Ações</th>
             </tr>
           </thead>
