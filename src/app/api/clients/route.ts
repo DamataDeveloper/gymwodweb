@@ -1,4 +1,3 @@
-// app/api/clients/route.ts
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -8,7 +7,6 @@ function getBaseUrl(): string {
   return raw.endsWith("/") ? raw.slice(0, -1) : raw;
 }
 
-// ✅ ONLY GET/POST here. No params, no PUT, no DELETE.
 export async function GET() {
   const base = getBaseUrl();
   const r = await fetch(`${base}/clients`, { cache: "no-store" });
